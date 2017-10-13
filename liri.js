@@ -73,7 +73,7 @@ function userInputSeparated(searchTerm){
   return separatedUserInput;
 }
 
-function spotify(songTitle){
+function spotify(songSearch){
 
   var spotify = new Spotify({
     id: "2183c528246541b1838b6be6e54483cd",
@@ -83,7 +83,7 @@ function spotify(songTitle){
    // var spotifyUrl ='https://api.spotify.com/v1/tracks/7yCPwWs66K8Ba5lFuU2bcx'
 
 
-  spotify.search({ type: 'track', query: 'all the small things' }, function(err, data) {
+  spotify.search({ type: 'track', query: songSearch }, function(err, data) {
   if (err) {
     return console.log('Error occurred: ' + err);
   } else {
@@ -105,8 +105,13 @@ function spotify(songTitle){
 
 
     for ( var i = 0; i < lengthOfSpotifyList.length; i++) {
-      console.log(lengthOfSpotifyList[i].artists[0].name);
-
+      console.log("")
+      console.log("Artists name is-" + lengthOfSpotifyList[i].artists[0].name);
+      console.log("Song's Name: " + lengthOfSpotifyList[i].name);
+      console.log("The url for the song is "+ lengthOfSpotifyList[i].external_urls.spotify);
+      console.log("The Alubm is: "+ lengthOfSpotifyList[i].album.name)
+      console.log("")
+      console.log("================================")
     }   
 
   }
