@@ -1,5 +1,15 @@
 var twitterKeys = require("./keys.js");
 var Spotify = require('node-spotify-api');
+var Twitter = require('twitter');
+
+var client = new Twitter({
+  consumer_key: twitterKeys.consumer_key,
+  consumer_secret: twitterKeys.consumer_secret,
+  access_token_key: twitterKeys.access_token_key,
+  access_token_secret: twitterKeys.access_token_secret
+});
+
+// console.log(twitterKeys);
 
 // Comands for LIRI
 // my-tweets
@@ -21,7 +31,7 @@ switch(userRequest){
   case "spotify-this-song":
     console.log("spotify");
     userInputSeparated(userInput);
-    // spotify();
+    spotify(separatedUserInput);
     break;
   case "movie-this":
     console.log("imdb");
@@ -35,19 +45,13 @@ switch(userRequest){
 }
 
 function twitter(){
-// "https://api.twitter.com/1.1/search/tweets.json?q=%23freebandnames&count=20"
 
-// baseUrl = "https://api.twitter.com/1.1/search/tweets.json?q=kanye%20west"
-
-twitterKeys.require('search/tweets', {q: 'node.js'}, function(error, response, body){
-
-  if (!error && response.statusCode === 200) {
-    console.log(response);
-  }
-  else {
-    console.log(error);
-  }
-})
+  var params = {screen_name: 'nodejs'};
+  client.get('statuses/user_timeline', params, function(error, tweets, response) {
+    if (!error) {
+      console.log(tweets);
+    }
+});
 
 }
 
@@ -69,24 +73,45 @@ function userInputSeparated(searchTerm){
   return separatedUserInput;
 }
 
-function spotify(){
+function spotify(songTitle){
 
   var spotify = new Spotify({
     id: "2183c528246541b1838b6be6e54483cd",
     secret: "8bfd5409cbe54f24941d130e78b6c6d4"
   });
    
-   var spotifyUrl ='https://api.spotify.com/v1/tracks/7yCPwWs66K8Ba5lFuU2bcx'
+   // var spotifyUrl ='https://api.spotify.com/v1/tracks/7yCPwWs66K8Ba5lFuU2bcx'
 
 
-  spotify
-    .request(spotifyUrl +)
-    .then(function(data) {
-      console.log(data); 
-    })
-    .catch(function(err) {
-      console.error('Error occurred: ' + err); 
-    });
+  spotify.search({ type: 'track', query: 'all the small things' }, function(err, data) {
+  if (err) {
+    return console.log('Error occurred: ' + err);
+  } else {
+  // NEED to do JSON.parse
+  var spotifyObj = data;
+  console.log(spotifyObj);
+  // returns total data
+  // get tracks
+  var spotifyList = spotifyObj.tracks;
+  // console.log(spotifyList);
+  var lengthOfSpotifyList = spotifyList.items
+  console.log(lengthOfSpotifyList.length);
+  console.log(lengthOfSpotifyList)
+
+// Artist(s)
+// The song's name
+// A preview link of the song from Spotify
+// The album that the song is from
+
+
+    for ( var i = 0; i < lengthOfSpotifyList.length; i++) {
+      console.log(lengthOfSpotifyList[i].artists[0].name);
+
+    }   
+
+  }
+  })
+};
 
 function imdb(movieTitle){
 
