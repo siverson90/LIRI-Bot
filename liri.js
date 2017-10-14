@@ -1,6 +1,9 @@
+
+// Variables
 var twitterKeys = require("./keys.js");
 var Spotify = require('node-spotify-api');
 var Twitter = require('twitter');
+var fs = require("fs");
 
 var client = new Twitter({
   consumer_key: twitterKeys.consumer_key,
@@ -9,19 +12,12 @@ var client = new Twitter({
   access_token_secret: twitterKeys.access_token_secret
 });
 
-// console.log(twitterKeys);
-
-// Comands for LIRI
-// my-tweets
-// spotify-this-song
-// movie-this
-// do-what-it-says
 
 var request = require("request");
 
 var userRequest = process.argv[2];
 var userInput = process.argv;
-var separatedUserInput ="";
+var separatedUserInput = "";
 
 switch(userRequest){
   case "my-tweets":
@@ -40,31 +36,39 @@ switch(userRequest){
     break;
   case "do-what-it-says":
     console.log("last song");
-    // run the spotfy song
+    readRandomTxt();
+
     break;
 }
 
-function twitter(){
+// ****FUNCTIONS*******
 
+// finds last 20 tweets for screenname
+function twitter() {
+
+  //parms used to capture screen name of account 
   var params = {screen_name: 'CNN'};
   client.get('statuses/user_timeline', params, function(error, tweets, response) {
+    // If valited response console result in formatt
     if (!error) {
       for (var i = 0; i < tweets.length; i++) {
         console.log("====================")
         console.log(tweets[i].created_at);
         console.log(tweets[i].text);
       }
+      else {
+        throw error;
+      }
     }
-});
+  });
+};
 
-}
+// Takes string after command and formats to be separated by "+"
+function userInputSeparated(searchTerm) {
 
-function userInputSeparated(searchTerm){
-
-  console.log(searchTerm);
-
+  // loop through length of input and insert "+"
   for ( var i = 3; i < searchTerm.length; i++) {
-
+    // Don't want a "+"sign before first word
     if (i > 3 && i < searchTerm.length) {
       separatedUserInput = separatedUserInput + "+" + searchTerm[i];
 
@@ -73,10 +77,11 @@ function userInputSeparated(searchTerm){
     }
 
   }
-  // console.log("this is the separated user input " + separatedUserInput);
+  // writes to global variable for other functions to call on
   return separatedUserInput;
-}
+};
 
+// Takes
 function spotify(songSearch){
 
   var spotify = new Spotify({
@@ -85,7 +90,10 @@ function spotify(songSearch){
   });
    
    // var spotifyUrl ='https://api.spotify.com/v1/tracks/7yCPwWs66K8Ba5lFuU2bcx'
-
+   if(songSearch.length == 0) {
+    // console.log("works");
+    songSearch = "The Sign";
+   }
 
   spotify.search({ type: 'track', query: songSearch }, function(err, data) {
   if (err) {
@@ -154,3 +162,24 @@ function imdb(movieTitle){
       }
     })
 };
+
+function readRandomTxt(){
+  fs.readFile("random.txt", "utf8", function(error,data){
+    if(error) {
+      return console.log("error");
+    }
+    
+    console.log("From the randomtext " + data);
+    var splitData = data.split(" ");
+    console.log(splitData);
+    splitData.splice(0,1);
+    console.log(splitData)
+    var joinedString = splitData.join();
+    console.log(joinedString);
+    var fromText= joinedString.replace(/,/g , ",");
+    console.log(fromText);
+ 
+    spotify(fromText);
+
+  })
+}
