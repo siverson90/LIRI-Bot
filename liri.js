@@ -37,12 +37,24 @@ switch(userRequest){
     console.log("last song");
     readRandomTxt();
 
+  default:
+    console.log(" ")
+    console.log("Looks like you entered in an incorrect command.");
+    console.log("Please try again");
+    console.log("You may enter:" );
+    console.log(" ")
+    console.log("my-tweets");
+    console.log(" ")  
+    console.log("spotify-this-song");
+    console.log(" ") 
+    console.log("movie-this");
+    console.log(" ")
     break;
 }
 
 // ****FUNCTIONS*******
 
-// render 
+// Print last 20 tweets
 function renderTweets() {
 
   //parms used to capture screen name of account 
