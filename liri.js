@@ -29,12 +29,12 @@ switch(userRequest){
     twitter();
     break;
   case "spotify-this-song":
-    console.log("spotify");
+    // console.log("spotify");
     userInputSeparated(userInput);
     spotify(separatedUserInput);
     break;
   case "movie-this":
-    console.log("imdb");
+    // console.log("imdb");
     userInputSeparated(userInput)
     imdb(separatedUserInput);
     break;
@@ -46,10 +46,14 @@ switch(userRequest){
 
 function twitter(){
 
-  var params = {screen_name: 'nodejs'};
+  var params = {screen_name: 'CNN'};
   client.get('statuses/user_timeline', params, function(error, tweets, response) {
     if (!error) {
-      console.log(tweets);
+      for (var i = 0; i < tweets.length; i++) {
+        console.log("====================")
+        console.log(tweets[i].created_at);
+        console.log(tweets[i].text);
+      }
     }
 });
 
@@ -89,20 +93,14 @@ function spotify(songSearch){
   } else {
   // NEED to do JSON.parse
   var spotifyObj = data;
-  console.log(spotifyObj);
+  // console.log(spotifyObj);
   // returns total data
   // get tracks
   var spotifyList = spotifyObj.tracks;
   // console.log(spotifyList);
   var lengthOfSpotifyList = spotifyList.items
-  console.log(lengthOfSpotifyList.length);
-  console.log(lengthOfSpotifyList)
-
-// Artist(s)
-// The song's name
-// A preview link of the song from Spotify
-// The album that the song is from
-
+  // console.log(lengthOfSpotifyList.length);
+  // console.log(lengthOfSpotifyList)
 
     for ( var i = 0; i < lengthOfSpotifyList.length; i++) {
       console.log("")
@@ -120,33 +118,39 @@ function spotify(songSearch){
 
 function imdb(movieTitle){
 
-  var queryurl = "http://www.omdbapi.com/?t="+ movieTitle + "&apikey=40e9cece"
+  if (movieTitle.length == 0) {
+    var queryurl = "http://www.omdbapi.com/?t=mr+nobody&apikey=40e9cece"
 
-  console.log("this is the queryUrl " + queryurl);
+  }
+  else {
+    var queryurl = "http://www.omdbapi.com/?t="+ movieTitle + "&apikey=40e9cece"
+  }
 
-  request(queryurl, function(error, response, body) {
-    if (!error && response.statusCode === 200){
-      var imdbObj = JSON.parse(body)
-      // console.log(imdbObj);
-      var title = imdbObj.Title;
-      var year = imdbObj.Year;
-      var imdbRating = imdbObj.Ratings[0].Value;
-      var rottenTomatoe = imdbObj.Ratings[1].Value;
-      var countryProduced = imdbObj.Country;
-      var language = imdbObj.Language;
-      var plot = imdbObj.Plot;
-      var actors = imdbObj.Actors;
-      console.log("Movie Title: " + title);
-      console.log("Movie released in " + year);
-      console.log("IMDB gave " + title + "a rating of " + imdbRating + " vs. " + "Rotten tomatoes gave a rating of " + rottenTomatoe);
-      console.log(title + " was produced in "+ countryProduced);
-      console.log(title + " is in "+ language);
-      console.log("Here is the plot of "+ title + ": " + plot);
-      console.log(title + " stars " + actors);
-   
-    }
-    else {
-      console.log("didnt work" + error);
-    }
-  })
+    // console.log("this is the queryUrl " + queryurl);
+
+    request(queryurl, function(error, response, body) {
+      if (!error && response.statusCode === 200){
+        var imdbObj = JSON.parse(body)
+        // console.log(imdbObj);
+        var title = imdbObj.Title;
+        var year = imdbObj.Year;
+        var imdbRating = imdbObj.Ratings[0].Value;
+        var rottenTomatoe = imdbObj.Ratings[1].Value;
+        var countryProduced = imdbObj.Country;
+        var language = imdbObj.Language;
+        var plot = imdbObj.Plot;
+        var actors = imdbObj.Actors;
+        console.log("Movie Title: " + title);
+        console.log("Movie released in " + year);
+        console.log("IMDB gave " + title + "a rating of " + imdbRating + " vs. " + "Rotten tomatoes gave a rating of " + rottenTomatoe);
+        console.log(title + " was produced in "+ countryProduced);
+        console.log(title + " is in "+ language);
+        console.log("Here is the plot of "+ title + ": " + plot);
+        console.log(title + " stars " + actors);
+     
+      }
+      else {
+        console.log("didnt work" + error);
+      }
+    })
 };
