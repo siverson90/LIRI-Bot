@@ -10,20 +10,8 @@ https://github.com/siverson90/LIRI-Bot.git
 
 ```
 
-
-### Prerequisites
-
-What things you need to install the software and how to install them
-
-```
-Give examples
-```
-
 ### Installing
 
-A step by step series of examples that tell you have to get a development env running
-
-Say what the step will be
 
 ```
 1. Run NPM Install to install dependencies
@@ -31,9 +19,9 @@ Say what the step will be
 2. Open terminal in root folder: Lili-Bot
 
 3. To run app enter: 
-..1. node lili.js my-tweets
-..2. node lili.js spotify-this-song (song title of your choice)
-..3. node lili.js movie-this (movie title of your choice)
+  1. node lili.js my-tweets
+  2. node lili.js spotify-this-song (song title of your choice)
+  3. node lili.js movie-this (movie title of your choice)
 ```
 
 
@@ -89,11 +77,6 @@ Here is the plot of The Matrix: A computer hacker learns from mysterious rebels 
 The Matrix stars Keanu Reeves, Laurence Fishburne, Carrie-Anne Moss, Hugo Weaving
 ```
 
-
-## Deployment
-
-Add additional notes about how to deploy this on a live system
-
 ## Built With
 
 * [Node.js](https://nodejs.org/en/) - Open source server framework
@@ -102,14 +85,6 @@ Add additional notes about how to deploy this on a live system
 * [request](https://www.npmjs.com/package/request) - Request is designed to be the simplest way possible to make http calls.
 * [File-system](https://www.npmjs.com/package/file-system) - This module make file opertaion apis simple, you don't need to care the dir exits. and the api is same as node's filesystem.
 *  [ NPM](https://www.npmjs.com/) - npm is the package manager for JavaScript and the world’s largest software registry.
-
-## Contributing
-
-Please read [CONTRIBUTING.md](https://gist.github.com/PurpleBooth/b24679402957c63ec426) for details on our code of conduct, and the process for submitting pull requests to us.
-
-## Versioning
-
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/your/project/tags). 
 
 ## Authors
 
